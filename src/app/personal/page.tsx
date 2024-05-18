@@ -1,6 +1,5 @@
-import Chart from "@/components/bar-chart";
-import Personal from "@/components/personal";
+import Personal from "@/components/card-table/personal";
 
 export default function PersonalPage() {
-  return <Chart />;
+  return <Personal />;
 }

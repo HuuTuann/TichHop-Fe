@@ -1,4 +1,11 @@
 import axios from "@/api/axios";
+import { PersonalType } from "@/types/personal";
+
+const savePersonal = async (data: PersonalType) => {
+  console.log(data);
+
+  return await axios.post("/api/personal", data);
+};
 
 // const getCaptcha = async () => {
 //   return await axios.get("/api/generate-captcha");
@@ -19,3 +26,4 @@ import axios from "@/api/axios";
 // };
 
 // export { getCaptcha, searchByTextField, searchByPicture };
+export { savePersonal };

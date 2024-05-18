@@ -11,8 +11,6 @@ const Navigation = () => {
   const pathname = usePathname();
 
   const getClassName = (path: string) => {
-    console.log(pathname);
-
     return cn("hover:bg-blue-500 hover:text-white text-md min-w-28", {
       "bg-blue-500 text-white": pathname === path,
     });
