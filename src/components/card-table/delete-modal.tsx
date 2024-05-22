@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { useContext } from "react";
 
 import { TableContext } from "@/contexts/TableContext";
+import { deletePersonal } from "@/api/personal";
 
 type DeleteModalType = {
   id: string;
@@ -22,10 +23,10 @@ type DeleteModalType = {
 export const DeleteModal = ({ id, type }: DeleteModalType) => {
   const { refreshData } = useContext(TableContext);
 
-  const handleDelete = () => {
-    type === "personal"
-      ? console.log("Delete personal")
-      : console.log("Delete employment");
+  const handleDelete = async () => {
+    // type === "personal" ?
+    const response = await deletePersonal(parseInt(id));
+    console.log(response);
 
     refreshData();
   };

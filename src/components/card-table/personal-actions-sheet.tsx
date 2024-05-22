@@ -13,6 +13,10 @@ import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { PersonalType } from "@/types/personal";
+import { addPersonal, updatePersonal } from "@/api/personal";
+import { useContext } from "react";
+
+import { TableContext } from "@/contexts/TableContext";
 
 import { cn } from "@/lib/utils";
 
@@ -26,6 +30,7 @@ export const PersonalActionsSheet = ({
   initialData,
 }: ActionsSheetType) => {
   const [data, setData] = useState<PersonalType>(initialData);
+  const { refreshData } = useContext(TableContext);
 
   const handleChange = (
     key: keyof PersonalType,
@@ -35,6 +40,19 @@ export const PersonalActionsSheet = ({
       ...data,
       [key]: e.target.value,
     });
+  };
+
+  const handleSubmit = async () => {
+    let response;
+    if (action === "edit") {
+      response = await updatePersonal(data);
+    } else {
+      response = await addPersonal(data);
+    }
+
+    if (response.status === 200) {
+      refreshData();
+    }
   };
 
   return (
@@ -50,7 +68,7 @@ export const PersonalActionsSheet = ({
           {action === "edit" ? "Edit" : "Add"}
         </Button>
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent side={"top"}>
         <SheetHeader>
           <SheetTitle>Personal</SheetTitle>
           <SheetDescription>
@@ -186,7 +204,10 @@ export const PersonalActionsSheet = ({
           </SheetClose>
           {action === "edit" ? (
             <SheetClose asChild>
-              <Button className="bg-blue-600 hover:bg-blue-500 hover:text-white text-white">
+              <Button
+                className="bg-blue-600 hover:bg-blue-500 hover:text-white text-white"
+                onClick={handleSubmit}
+              >
                 Save
               </Button>
             </SheetClose>
@@ -195,6 +216,7 @@ export const PersonalActionsSheet = ({
               <Button
                 className="bg-blue-600 hover:bg-blue-500 hover:text-white text-white"
                 variant={"ghost"}
+                onClick={handleSubmit}
               >
                 Add
               </Button>
